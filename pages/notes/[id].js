@@ -1,16 +1,7 @@
-import { useRouter } from "next/router";
 import notes from "@/data/notes";
 
 
-export default function Note() {
-    const router = useRouter()
-    const { id } = router.query
-
-    const note = notes.find(note => note.id === Number(id))
-
-    if (!note) {
-        return <h1>Note not found</h1>
-    }
+export default function Note({note}) {
 
     return (
         <div className="min-h-screen bg-gray-100 p-8">
@@ -23,4 +14,20 @@ export default function Note() {
             </p>
         </div>
     )
+}
+
+export async function getServerSideProps({params}) {
+    const note = notes.find(note => note.id === Number(params.id))
+
+    if(!note){
+        return {
+            notFound: true
+        }
+    }
+
+    return {
+        props: {
+            note,
+        }
+    }
 }

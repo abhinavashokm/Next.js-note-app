@@ -1,10 +1,11 @@
-import notes from "../data/notes";
 import Link from "next/link";
+import notes from "../data/notes";
+import Image from "next/image";
 
-export default function Home() {
+export default function Home({ notes }) {
   return (
     <div className="min-h-screen bg-gray-100 p-8">
-      <h1 className="mb-8 text-4xl font-bold">
+      <h1 className="mb-8 text-4xl font-bold text-black">
         My Notes
       </h1>
 
@@ -14,7 +15,14 @@ export default function Home() {
             key={note.id}
             className="rounded-lg bg-white p-6 shadow"
           >
-            <h2 className="mb-2 text-xl font-semibold">
+            <Image
+              src={'/note.jpg'}
+              alt="note"
+              width={200}
+              height={50}
+              className="mb-4 rounded"
+            />
+            <h2 className="mb-2 text-xl font-semibold text-black">
               {note.title}
             </h2>
 
@@ -33,4 +41,13 @@ export default function Home() {
       </div>
     </div>
   );
+}
+
+
+export async function getStaticProps(params) {
+  return {
+    props: {
+      notes,
+    }
+  }
 }
